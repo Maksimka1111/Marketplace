@@ -1,6 +1,5 @@
 package com.example.SpringPostgres.services;
 
-
 import com.example.SpringPostgres.entities.Client;
 import com.example.SpringPostgres.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,7 @@ public class ClientService {
         repository.save(client);
     };
     public Client read(long id){
-        if (repository.findById(id).isPresent())
-            return repository.findById(id).get();
-        else return null;
+        return repository.findById(id).get();
     }
     public void update(Client client){
         repository.saveAndFlush(client);

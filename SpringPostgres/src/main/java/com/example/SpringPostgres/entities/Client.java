@@ -1,11 +1,9 @@
 package com.example.SpringPostgres.entities;
 
-import com.example.SpringPostgres.entities.products.Product;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -24,14 +22,21 @@ public class Client {
     private String username;
     private String password;
 
-    @OneToMany
+    @OneToMany(mappedBy = "client")
     private List<Order> basket;
 
     public String toString(){
+        StringBuilder orders = new StringBuilder();
+        for(Order order: basket){
+            orders.append(order.toString()).append("\n");
+        }
+        if (basket.size() == 0)
+            orders.append("no orders yet");
         return "id: " + id
                 + "\nname: " + name
                 + "\nmail: " + mail
                 + "\nusername: " + username
-                + "\npassword: " + password;
+                + "\npassword: " + password
+                + "\norders: " + orders;
     }
 }
