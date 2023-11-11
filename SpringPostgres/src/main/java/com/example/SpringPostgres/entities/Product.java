@@ -21,6 +21,8 @@ public class Product {
     private int sellerNum;
     private String typeOf;
 
+    private int available;
+
     public String toString(){
         if (typeOf.toLowerCase().equals("book")){
             return "id: " + id
@@ -28,7 +30,8 @@ public class Product {
                     + "\nseller number: " + sellerNum
                     + "\ntype: " + typeOf
                     + "\ncost: " + cost
-                    + "\nname: " + name;
+                    + "\nname: " + name
+                    + "\navailable: " + available;
         }
         return "id: " + id
                 + "\nproducer: " + author
@@ -36,7 +39,8 @@ public class Product {
                 + "\nseller number: " + sellerNum
                 + "\ntype: " + typeOf
                 + "\ncost: " + cost
-                + "\nname: " + name;
+                + "\nname: " + name
+                + "\navailable: " + available;
     }
     @OneToOne(mappedBy = "product")
     Order order;

@@ -30,12 +30,12 @@ public class ProductController {
         product.setCost(cost);
         product.setSellerNum(sellerNum);
         product.setVolume(volume);
-        //product.setOrder(new Order());
+        product.setAvailable(1);
         service.create(product);
         return "status: ok";
     }
     @PutMapping("/update")
-    public String updateProduct(@RequestParam long id, String author, int volume, int sellerNum, String type, int cost, String name){
+    public String updateProduct(@RequestParam long id, String author, int volume, int sellerNum, String type, int cost, String name, int available){
         Product product = new Product();
         product.setId(id);
         product.setAuthor(author);
@@ -44,7 +44,7 @@ public class ProductController {
         product.setCost(cost);
         product.setSellerNum(sellerNum);
         product.setVolume(volume);
-        //product.setOrder(null);
+        product.setAvailable(available);
         service.update(product);
         return "status: ok";
     }

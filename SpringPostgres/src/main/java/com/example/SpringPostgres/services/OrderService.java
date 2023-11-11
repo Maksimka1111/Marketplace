@@ -33,6 +33,9 @@ public class OrderService {
         }
         return result.toString();
     }
+    public List<Order> getAll(){
+        return repository.findAll();
+    }
     public void update(Long id, int amount){
         Order order = repository.getReferenceById(id);
         order.setAmount(amount);
