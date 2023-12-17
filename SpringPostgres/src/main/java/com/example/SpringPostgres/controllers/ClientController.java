@@ -2,42 +2,54 @@ package com.example.SpringPostgres.controllers;
 
 import com.example.SpringPostgres.entities.Client;
 import com.example.SpringPostgres.services.ClientService;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("/client")
 public class ClientController {
     @Autowired
     ClientService service;
 
+    @GetMapping("/becameSeller")
+    @PreAuthorize("hasAnyRole('USER', 'ADMINISTRATOR')")
+    public String wannaBeSeller(){
+        return "redirect:" + "http://localhost:9001/user/becameSeller";
+    }
+
+    @GetMapping("/getUser")
+    public @ResponseBody String getUser(){
+        return service.getCurrentUser().getUsername();
+    }
     @GetMapping("/read")
-    public String readClient(@RequestParam long id){
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR')")
+    public @ResponseBody String readClient(@RequestParam long id){
         return service.read(id).toString();
     }
     @PostMapping("/create")
-    public String createClient(@RequestParam String username, String mail, String name, String password){
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR')")
+    public @ResponseBody String createClient(@RequestParam String username, String mail, String name, String password){
         Client client = new Client();
-        client.setMail(mail);
-        client.setName(name);
         client.setUsername(username);
-        client.setPassword(password);
         service.create(client);
         return "status: ok";
     }
     @PutMapping("/update")
-    public String updateClient(@RequestParam long id, String username, String mail, String name, String password){
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR')")
+    public @ResponseBody String updateClient(@RequestParam long id, String username, String mail, String name, String password){
         Client client = new Client();
         client.setId(id);
-        client.setMail(mail);
-        client.setName(name);
         client.setUsername(username);
-        client.setPassword(password);
         service.update(client);
         return "status: ok";
     }
     @DeleteMapping("/delete")
-    public String deleteClient(@RequestParam long id){
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR')")
+    public @ResponseBody String deleteClient(@RequestParam long id){
         service.delete(id);
         return "status: ok";
     }

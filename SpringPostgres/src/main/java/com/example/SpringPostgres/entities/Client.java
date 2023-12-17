@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "clients")
@@ -17,13 +19,17 @@ public class Client {
     private Long id;
 
 
-    private String name;
-    private String mail;
     private String username;
-    private String password;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private List<Order> basket;
+
+    public void addOrder(Order order){
+        this.basket.add(order);
+    }
+    public void delOrder(Order order){
+        this.basket.remove(order);
+    }
 
     public String toString(){
         StringBuilder orders = new StringBuilder();
@@ -33,10 +39,7 @@ public class Client {
         if (basket.size() == 0)
             orders.append("no orders yet");
         return "id: " + id
-                + "\nname: " + name
-                + "\nmail: " + mail
                 + "\nusername: " + username
-                + "\npassword: " + password
                 + "\norders: " + orders;
     }
 }

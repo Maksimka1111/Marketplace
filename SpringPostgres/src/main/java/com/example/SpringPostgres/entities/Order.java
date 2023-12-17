@@ -20,12 +20,12 @@ public class Order {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="client_id")
     Client client;
 
     @Override
     public String toString() {
-        return "order id: " + id + "\nProduct: \n" + product.toString()  + "\n" + "amount: " + amount;
+        return "order id: " + id + "\nProduct: \n\t" + product.getProductId() + "\n\t" + product.getProductType()  + "\n" + "amount: " + amount;
     }
 }

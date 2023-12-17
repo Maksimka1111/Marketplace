@@ -4,16 +4,27 @@ services:
   database:
     image: postgres
     ports:
-      - 5432:5432
+      - 7777:5432
     environment:
       - POSTGRES_PASSWORD=root
       - POSTGRES_USERNAME=postgres
+
+  redis-db:
+    image: redis
+  
+  auth_service:
+    build: ./AuthService
+    depends_on:
+      - redis-db
+    ports:
+      - 9001:80
     
   server:
     build: ./SpringPostgres
     depends_on:
       - database  
+      - auth_service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
-      - 9000:9000
+      - 9010:80
